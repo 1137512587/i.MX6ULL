@@ -1,0 +1,32 @@
+1.安装ftp服务，方便进行文件传输
+sudo apt-get install vsftpd
+sudo vi /etc/vsftpd.conf
+local_enable=YES
+write_enable=YES
+sudo chmod -R 777 /home
+sudo /etc/init.d/vsftpd restart
+
+2.安装nfs服务，SD卡烧录要用
+sudo apt-get install nfs-kernel-server rpcbind
+sudo vi /etc/exports
+/home/xqhuang/linux/nfs *(rw,sync,no_root_squash)
+sudo /etc/init.d/nfs-kernel-server restart
+
+3.安装ssh服务
+sudo apt-get install openssh-server
+
+4.安装交叉编译器
+sudo mkdir /usr/local/arm
+sudo cp gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz /usr/local/arm/ -f
+sudo tar -vxf gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz
+sudo vi /etc/profile
+export PATH=$PATH:/usr/local/arm/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin
+sudo apt-get install lsb-core lib32stdc++6
+source /etc/profile
+arm-linux-gnueabihf-gcc -v
+
+烧写到SD卡
+ls /dev/sd*
+/dev/sda  /dev/sda1  /dev/sda2  /dev/sda3
+/dev/sda  /dev/sda1  /dev/sda2  /dev/sda3  /dev/sdb  /dev/sdb1
+./imxdownload led.bin /dev/sdb
