@@ -1,0 +1,24 @@
+汇编作用
+1.初始化soc的一些外设
+2.初始化DDR,但MX6U不用，其内部ROM有其启动程序
+3.设置sp指针，设置好c语言运行环境
+
+
+原理
+gpio3
+1.使能gpio时钟
+2.复用gpio
+3.设置gpio电气属性（上下拉 推完 浮空）
+4.设置gpio输出值
+
+1.CCGR0～CCGR6控制所有外设时钟，设置为0xffffffff启动所有时钟
+2.io复用，将寄存器
+IOMUX_SW_MUX_CTL_PAD_GPIO1_IO03
+的bit3～设置为0101
+3.设置寄存器
+IOMUX_SW_MUX_CTL_PAD_GPIO1_IO03
+来设置gpio3的压摆率 速度 驱动能力 上下拉等
+4.配置gpio输入输出寄存器
+GPIO1_DR
+bit3：1为输出模式
+bit1：1为高电平 0为低电平
